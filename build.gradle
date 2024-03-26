@@ -1,0 +1,63 @@
+plugins {
+  id 'java'
+  id 'org.springframework.boot' version '3.2.4'
+  id 'io.spring.dependency-management' version '1.1.4'
+  id 'maven-publish'
+}
+
+group = 'run.freshr'
+version = '1.0.0.RELEASE'
+
+java {
+  sourceCompatibility = '17'
+}
+
+repositories {
+  maven {
+    url "https://:${githubPackageRead}@maven.pkg.github.com/${githubOwner}/*"
+  }
+  mavenCentral()
+}
+
+dependencies {
+  // Test
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+  // Starter
+  implementation 'org.springframework.boot:spring-boot-starter'
+}
+
+test {
+  useJUnitPlatform()
+}
+
+bootJar {
+  enabled = false
+}
+
+jar {
+  enabled = true
+  archiveClassifier = ''
+}
+
+publishing {
+  publications {
+    maven(MavenPublication) {
+      artifact("build/libs/${rootProject.name}-${version}" + ".jar") {
+        extension 'jar'
+      }
+    }
+  }
+
+  repositories {
+    maven {
+      url = "${githubPackageMaven}/${githubOwner}/${rootProject.name}"
+      credentials {
+        username System.getenv("GITHUB_ACTOR")
+        password System.getenv("GITHUB_TOKEN")
+      }
+    }
+  }
+
+  publishMavenPublicationToMavenRepository.dependsOn(jar)
+}
