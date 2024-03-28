@@ -15,6 +15,7 @@ java {
 repositories {
   maven {
     url "https://:${githubPackageRead}@maven.pkg.github.com/${githubOwner}/*"
+//    url "${nexusRepository}/maven-public/"
   }
   mavenCentral()
 }
@@ -56,6 +57,13 @@ publishing {
         username System.getenv("GITHUB_ACTOR")
         password System.getenv("GITHUB_TOKEN")
       }
+//      url = version.endsWith('SNAPSHOT')
+//              ? "${nexusRepository}/maven-snapshots/"
+//              : "${nexusRepository}/maven-releases/"
+//      credentials {
+//        username "${nexusUsername}"
+//        password "${nexusPassword}"
+//      }
     }
   }
 
