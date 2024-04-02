@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'run.freshr'
-version = '1.0.0.RELEASE'
+version = '1.0.0-SNAPSHOT'
 
 java {
   sourceCompatibility = '17'
